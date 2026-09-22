@@ -12,5 +12,10 @@ def index():
         "rating": rating    
     }
 
+@app.route('/no_content')
+def no_content():
+   return "", 204 
+
 if __name__ == '__main__':
     app.run(debug=True) 
+ 
