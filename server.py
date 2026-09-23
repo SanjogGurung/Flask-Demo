@@ -90,6 +90,41 @@ def get_data():
     except NameError:
         return {"message": "Data not found"}, 404
 
+@app.route('/name_search')
+def name_search():
+    """
+    Find a person in the database.
+
+    Returns:
+        json: Person if found, with status of 200
+        400: If argument 'q' is missing from the request
+        422: If argument 'q' is present but invalid (e.g., empty or numeric)
+        404: If person is not found in the data
+    """
+
+    query = request.args.get('q')
+
+    print(query.lower())
+
+    if query is None:
+        return {
+            "message": "Query Parameter q is missing"
+        }, 400
+
+    if query.strip() == "" or query.isdigit():
+        return {
+            "message": "Invalid query parameter"
+        }, 422
+
+    for person in data:
+        print(person["first_name"].lower())
+        if query.lower() in person["first_name"].lower():
+            return person, 200
+
+    return {
+        "message": "Person not found"
+    }, 404
+
 if __name__ == '__main__':
     app.run(debug=True) 
  
