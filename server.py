@@ -157,6 +157,14 @@ def get_by_id():
             return each, 200
     return {"message": "No data found"}, 400
 
+
+@app.route("/person/count")
+def count():
+    try: 
+        return {"total": len(data)}, 200
+    except NameError:
+        return {"message": "data not found"}, 400
+
 if __name__ == "__main__":
     app.run(debug=True) 
  
