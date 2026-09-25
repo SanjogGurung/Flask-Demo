@@ -128,7 +128,7 @@ def name_search():
 
 @app.route("/person")
 def add_by_uuid():
-    query_string = request.args.get('q')
+    query_string = request.args.get('q') # http://127.0.0.1:5000/person?q={%22name%22:%22Alice%22,%22age%22:30}
 
     if not query_string:
         return {
@@ -147,6 +147,15 @@ def add_by_uuid():
         return {    
             "error" : "Invalid JSON format in URL"
         }, 400
+
+@app.route("/person/unique_identifier")
+def get_by_id():
+    query_string = request.args.get('q')
+
+    for each in data:
+        if query_string == each['id']:
+            return each, 200
+    return {"message": "No data found"}, 400
 
 if __name__ == "__main__":
     app.run(debug=True) 
