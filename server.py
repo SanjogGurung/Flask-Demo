@@ -1,4 +1,5 @@
-from flask import Flask, request
+from json import JSONDecodeError
+from flask import Flask, request, json
 
 app = Flask(__name__)
 
@@ -125,6 +126,28 @@ def name_search():
         "message": "Person not found"
     }, 404
 
-if __name__ == '__main__':
+@app.route("/person")
+def add_by_uuid():
+    query_string = request.args.get('q')
+
+    if not query_string:
+        return {
+            "error": "Missing query parameter 'q'"
+        }, 400
+
+    try:
+        data_dict = json.loads(query_string)
+        print(data_dict)
+
+        data.append(data_dict)
+
+        return data, 200
+
+    except json.JSONDecodeError:
+        return {    
+            "error" : "Invalid JSON format in URL"
+        }, 400
+
+if __name__ == "__main__":
     app.run(debug=True) 
  
