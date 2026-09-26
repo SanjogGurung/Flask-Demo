@@ -165,6 +165,25 @@ def find_by_uuid(id):
             return person
     return {"message": "person not found"}, 400
 
+@app.route("/person/<uuid:id>", methods=['DELETE'])
+def delete_by_uuid(id):
+    for person in data:
+        if person["id"] == str(id):
+            data.remove(person)
+            return {"message": f"{id} removed successfully"}, 200
+
+    return {"message": f"{id} not found"}, 404
+
+
+@app.route("/person", methods = ["POST"])
+def create_person():
+    new_person = request.get_json()
+
+    if not new_person:
+        return {"message": "No data provided"}, 422
+    data.append(new_person)
+
+    return {"message": f"New person {new_person['id']} added successfully"}, 200
 
 @app.route("/person/count")
 def count():
