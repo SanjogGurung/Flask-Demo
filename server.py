@@ -158,6 +158,14 @@ def get_by_id():
     return {"message": "No data found"}, 400
 
 
+@app.route("/person/<uuid:id>") # http://127.0.0.1:5000/person/0dd63e57-0b5f-44bc-94ae-5c1b4947cb49
+def find_by_uuid(id):
+    for person in data:
+        if person["id"] == str(id):
+            return person
+    return {"message": "person not found"}, 400
+
+
 @app.route("/person/count")
 def count():
     try: 
